@@ -64,6 +64,7 @@ import { WebviewResourceCache } from './webview/webview-resource-cache';
 import { PluginIconThemeService, PluginIconThemeFactory, PluginIconThemeDefinition, PluginIconTheme } from './plugin-icon-theme-service';
 import { PluginTreeViewNodeLabelProvider } from './view/plugin-tree-view-node-label-provider';
 import { WebviewWidgetFactory } from './webview/webview-widget-factory';
+import { CommentService, PluginCommentService } from './comments/commentService';
 
 export default new ContainerModule((bind, unbind, isBound, rebind) => {
 
@@ -198,4 +199,6 @@ export default new ContainerModule((bind, unbind, isBound, rebind) => {
     rebind(DebugSessionContributionRegistry).toService(PluginDebugSessionContributionRegistry);
 
     bind(ViewColumnService).toSelf().inSingletonScope();
+
+    bind(CommentService).to(PluginCommentService).inSingletonScope();
 });
