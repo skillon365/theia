@@ -91,8 +91,8 @@ export class TerminalWidgetImpl extends TerminalWidget implements StatefulWidget
 
     @postConstruct()
     protected init(): void {
+        console.error('++++ Terminal widget ++++ init +++ this.title ', this.title.iconClass);
         this.setTitle(this.options.title || this.TERMINAL);
-        console.log('!!!!!!!!!! TERMINAL WIDGET !!! init !!! set iconclass ');
         this.title.iconClass = 'fa fa-terminal';
 
         if (this.options.kind) {
@@ -670,7 +670,6 @@ export class TerminalWidgetImpl extends TerminalWidget implements StatefulWidget
     }
 
     setTitle(title: string): void {
-        console.log('!!!!!!!!!! TERMINAL WIDGET !!! set title ', title);
         this.title.caption = title;
         this.title.label = title;
     }

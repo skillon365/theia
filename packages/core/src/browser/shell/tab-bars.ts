@@ -132,11 +132,15 @@ export class TabBarRenderer extends TabBar.Renderer {
      */
     renderTab(data: SideBarRenderData, isInSidePanel?: boolean): VirtualElement {
         const title = data.title;
+        console.error('+++++++++++++++++++++++++++++ renderTab +++++++++++++++++++++ ');
+        console.error('++++++++++++++++ title', title);
         const id = this.createTabId(data.title);
         const key = this.createTabKey(data);
         const style = this.createTabStyle(data);
         const className = this.createTabClass(data);
         const dataset = this.createTabDataset(data);
+        const icon = this.renderIcon(data, isInSidePanel);
+        console.error('++++++++++++++++ icon ', icon);
         return h.li(
             {
                 key, className, id, title: title.caption, style, dataset,
@@ -382,7 +386,9 @@ export class TabBarRenderer extends TabBar.Renderer {
      * @param {boolean} isInSidePanel An optional check which determines if the tab is in the side-panel.
      */
     renderIcon(data: SideBarRenderData, inSidePanel?: boolean): VirtualElement {
+        console.error('!!!!!!!!!!!  RENDER ICON !!!!!!!!!!!', data);
         if (!inSidePanel && this.iconThemeService && this.iconThemeService.current === 'none') {
+            console.error('!!! RENDER ICON !!! RETURN ');
             return h.div();
         }
         let top: string | undefined;
@@ -391,13 +397,16 @@ export class TabBarRenderer extends TabBar.Renderer {
         }
         const style: ElementInlineStyle = { top };
         const baseClassName = this.createIconClass(data);
+        console.error('!!!  baseClassName ', baseClassName);
 
         const overlayIcons: VirtualElement[] = [];
         const decorationData = this.getDecorationData(data.title, 'iconOverlay');
 
         // Check if the tab has decoration markers to be rendered on top.
         if (decorationData.length > 0) {
+            console.error('!!!  decorationData.length > 0 ');
             const baseIcon: VirtualElement = h.div({ className: baseClassName, style }, data.title.iconLabel);
+            console.error('!!!  baseIcon ', baseIcon);
             const wrapperClassName: string = WidgetDecoration.Styles.ICON_WRAPPER_CLASS;
             const decoratorSizeClassName: string = inSidePanel ? WidgetDecoration.Styles.DECORATOR_SIDEBAR_SIZE_CLASS : WidgetDecoration.Styles.DECORATOR_SIZE_CLASS;
 
@@ -427,6 +436,8 @@ export class TabBarRenderer extends TabBar.Renderer {
                     );
                 });
             return h.div({ className: wrapperClassName, style }, [baseIcon, ...overlayIcons]);
+        } else {
+            console.error('!!!  decorationData.length NOT > 0 ', decorationData.length);
         }
         return h.div({ className: baseClassName, style }, data.title.iconLabel);
     }
