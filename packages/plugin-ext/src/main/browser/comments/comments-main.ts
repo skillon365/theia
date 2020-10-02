@@ -1,5 +1,5 @@
 /********************************************************************************
- * Copyright (C) 2019 Red Hat, Inc. and others.
+ * Copyright (C) 2020 Red Hat, Inc. and others.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0 which is available at
@@ -40,6 +40,9 @@ import { CancellationToken } from '@theia/core/lib/common';
 import { RPCProtocol } from '../../../common/rpc-protocol';
 import { interfaces } from 'inversify';
 import { v4 as uuidv4 } from 'uuid';
+import { CommentingRangeDecorator } from './comments-decorator';
+import { EditorManager } from '@theia/editor/lib/browser';
+import { MonacoDiffEditor } from '@theia/monaco/lib/browser/monaco-diff-editor';
 
 export class CommentThreadImpl implements CommentThread, Disposable {
     private _input?: CommentInput;
@@ -373,6 +376,14 @@ export class CommentsMainImp implements CommentsMain {
     constructor(rpc: RPCProtocol, container: interfaces.Container) {
         this._proxy = rpc.getProxy(MAIN_RPC_CONTEXT.COMMENTS_EXT);
         this._commentService = container.get(CommentService);
+        const commentsDecorator = container.get(CommentingRangeDecorator);
+        const editorManager = container.get(EditorManager);
+        editorManager.onCreated(widget => {
+            const editor = widget.editor;
+            if (editor instanceof MonacoDiffEditor) {
+                commentsDecorator.applyDecorations(editor);
+            }
+        });
         this._commentService.onDidChangeActiveCommentThread(async thread => {
             const handle = (thread as CommentThread).controllerHandle;
             const controller = this._commentControllers.get(handle);

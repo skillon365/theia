@@ -16,6 +16,7 @@
 
 import '../../../src/main/style/status-bar.css';
 import '../../../src/main/browser/style/index.css';
+import '../../../src/main/browser/style/comments.css';
 
 import { ContainerModule } from 'inversify';
 import {
@@ -65,6 +66,7 @@ import { PluginIconThemeService, PluginIconThemeFactory, PluginIconThemeDefiniti
 import { PluginTreeViewNodeLabelProvider } from './view/plugin-tree-view-node-label-provider';
 import { WebviewWidgetFactory } from './webview/webview-widget-factory';
 import { CommentService, PluginCommentService } from './comments/commentService';
+import { CommentingRangeDecorator } from './comments/comments-decorator';
 
 export default new ContainerModule((bind, unbind, isBound, rebind) => {
 
@@ -201,4 +203,5 @@ export default new ContainerModule((bind, unbind, isBound, rebind) => {
     bind(ViewColumnService).toSelf().inSingletonScope();
 
     bind(CommentService).to(PluginCommentService).inSingletonScope();
+    bind(CommentingRangeDecorator).toSelf().inSingletonScope();
 });
