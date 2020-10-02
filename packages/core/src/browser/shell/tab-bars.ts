@@ -387,6 +387,11 @@ export class TabBarRenderer extends TabBar.Renderer {
      */
     renderIcon(data: SideBarRenderData, inSidePanel?: boolean): VirtualElement {
         console.error('!!!!!!!!!!!  RENDER ICON !!!!!!!!!!!', data);
+        console.error('!!!!!!!!!!!  RENDER ICON !!! inSidePanel ', inSidePanel);
+        console.error('!!!!!!!!!!!  RENDER ICON !!! this.iconThemeService ', this.iconThemeService);
+        if (this.iconThemeService) {
+            console.error('!!!!!!!!!!!  RENDER ICON !!! this.iconThemeService.current ', this.iconThemeService.current);
+        }
         if (!inSidePanel && this.iconThemeService && this.iconThemeService.current === 'none') {
             console.error('!!! RENDER ICON !!! RETURN ');
             return h.div();
